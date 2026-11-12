@@ -71,7 +71,7 @@ function createApp() {
       const index = todos.findIndex((t) => t.id === id);
       if (index === -1) return send(res, 404, { error: 'Not found' });
       if (req.method === 'PATCH') {
-        todos[index].done = !todos[index].done;
+        todos[index].done = true;
         return send(res, 200, todos[index]);
       }
       if (req.method === 'DELETE') {
