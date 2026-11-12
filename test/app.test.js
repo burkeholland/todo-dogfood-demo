@@ -24,6 +24,7 @@ test('counts only incomplete todos as items left', () => {
 });
 
 async function loadApp(response) {
+  let requests = 0;
   const elements = new Map([
     ['login-form', { hidden: false }],
     ['app', { hidden: true }],
@@ -44,14 +45,17 @@ async function loadApp(response) {
       createElement: element,
     },
     fetch: async (url, options) => {
+      requests++;
       assert.strictEqual(url, '/api/todos');
       assert.strictEqual(options.method, 'GET');
+      if (response instanceof Error) throw response;
       return response;
     },
   };
   const source = fs.readFileSync(path.join(__dirname, '../public/app.js'), 'utf8');
   vm.runInNewContext(source, context);
   await new Promise((resolve) => setImmediate(resolve));
+  assert.strictEqual(requests, 1);
   return elements;
 }
 
@@ -74,6 +78,13 @@ test('keeps the sign-in form visible without a session', async () => {
     ok: false,
     json: async () => ({ error: 'Sign in first' }),
   });
+
+  assert.strictEqual(elements.get('login-form').hidden, false);
+  assert.strictEqual(elements.get('app').hidden, true);
+});
+
+test('keeps the sign-in form visible if the session check fails', async () => {
+  const elements = await loadApp(new Error('Network unavailable'));
 
   assert.strictEqual(elements.get('login-form').hidden, false);
   assert.strictEqual(elements.get('app').hidden, true);
