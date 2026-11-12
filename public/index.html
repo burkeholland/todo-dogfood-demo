@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Todos</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Todos</h1>
+      <form id="login-form">
+        <label>Email <input id="email" type="email" autocomplete="username" /></label>
+        <label>Password <input id="password" type="password" autocomplete="current-password" /></label>
+        <button type="submit">Sign in</button>
+        <p id="login-error" role="alert"></p>
+      </form>
+      <section id="app" hidden>
+        <form id="add-form">
+          <label for="new-todo">New todo</label>
+          <input id="new-todo" placeholder="What needs doing?" />
+          <button type="submit">Add</button>
+        </form>
+        <ul id="list"></ul>
+        <p id="count"></p>
+      </section>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>
