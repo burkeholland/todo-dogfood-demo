@@ -13,7 +13,7 @@ async function api(method, url, body) {
 }
 
 function itemsLeft(todos) {
-  return todos.filter((t) => !t.done).length;
+  return todos.filter((t) => t.done).length;
 }
 
 async function refresh() {
