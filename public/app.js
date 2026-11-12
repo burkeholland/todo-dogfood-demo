@@ -16,8 +16,14 @@ function itemsLeft(todos) {
   return todos.filter((t) => !t.done).length;
 }
 
+let refreshGeneration = 0;
+
 async function refresh() {
-  const { data: todos } = await api('GET', '/api/todos');
+  const generation = ++refreshGeneration;
+  const { ok, data: todos } = await api('GET', '/api/todos');
+  if (generation !== refreshGeneration || !ok) return;
+  loginForm.hidden = true;
+  app.hidden = false;
   list.innerHTML = '';
   for (const todo of todos) {
     const li = document.createElement('li');
@@ -67,5 +73,7 @@ document.getElementById('add-form').onsubmit = async (event) => {
   input.value = '';
   refresh();
 };
+
+refresh().catch(() => {});
 
 if (typeof module !== 'undefined') module.exports = { itemsLeft };
