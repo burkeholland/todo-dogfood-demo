@@ -16,9 +16,12 @@ function itemsLeft(todos) {
   return todos.filter((t) => !t.done).length;
 }
 
+let refreshGeneration = 0;
+
 async function refresh() {
+  const generation = ++refreshGeneration;
   const { ok, data: todos } = await api('GET', '/api/todos');
-  if (!ok) return;
+  if (generation !== refreshGeneration || !ok) return;
   loginForm.hidden = true;
   app.hidden = false;
   list.innerHTML = '';
