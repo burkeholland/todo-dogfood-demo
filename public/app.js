@@ -63,7 +63,13 @@ loginForm.onsubmit = async (event) => {
 document.getElementById('add-form').onsubmit = async (event) => {
   event.preventDefault();
   const input = document.getElementById('new-todo');
-  await api('POST', '/api/todos', { text: input.value });
+  const error = document.getElementById('add-error');
+  const { ok, data } = await api('POST', '/api/todos', { text: input.value });
+  if (!ok) {
+    error.textContent = data.error;
+    return;
+  }
+  error.textContent = '';
   input.value = '';
   refresh();
 };
