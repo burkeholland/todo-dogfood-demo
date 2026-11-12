@@ -4,5 +4,6 @@ label { display: block; margin-bottom: 8px; }
 input { padding: 6px; }
 ul { list-style: none; padding: 0; }
 li { display: flex; gap: 8px; align-items: center; padding: 6px 0; }
+li span { min-width: 0; overflow-wrap: anywhere; }
 li.done span { text-decoration: line-through; color: #57606a; }
 #login-error { color: #cf222e; }
