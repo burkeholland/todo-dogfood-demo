@@ -70,7 +70,6 @@ document.getElementById('add-form').onsubmit = async (event) => {
   event.preventDefault();
   const input = document.getElementById('new-todo');
   await api('POST', '/api/todos', { text: input.value });
-  input.value = '';
   refresh();
 };
 
