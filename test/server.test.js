@@ -53,3 +53,13 @@ test('serves the home page', async () => {
     assert.match(await res.text(), /<h1>Todos<\/h1>/);
   });
 });
+
+test('sign out invalidates the session', async () => {
+  await withServer(async (base) => {
+    const cookie = await signIn(base);
+    const out = await fetch(`${base}/api/logout`, { method: 'POST', headers: { cookie } });
+    assert.strictEqual(out.status, 200);
+    const res = await fetch(`${base}/api/todos`, { headers: { cookie } });
+    assert.strictEqual(res.status, 401);
+  });
+});
