@@ -39,6 +39,8 @@ test('adds, toggles and deletes a todo', async () => {
     assert.strictEqual(created.text, 'Buy milk');
     const toggled = await (await fetch(`${base}/api/todos/${created.id}`, { method: 'PATCH', headers })).json();
     assert.strictEqual(toggled.done, true);
+    const untoggled = await (await fetch(`${base}/api/todos/${created.id}`, { method: 'PATCH', headers })).json();
+    assert.strictEqual(untoggled.done, false);
     const del = await fetch(`${base}/api/todos/${created.id}`, { method: 'DELETE', headers });
     assert.strictEqual(del.status, 204);
     const list = await (await fetch(`${base}/api/todos`, { headers })).json();
