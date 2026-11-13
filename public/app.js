@@ -48,7 +48,7 @@ async function refresh() {
     list.append(li);
   }
   const left = itemsLeft(todos);
-  count.textContent = `${left} ${left === 1 ? 'item' : 'items'} left`;
+  count.textContent = `${left} ${left === 1 ? 'items' : 'item'} left`;
 }
 
 loginForm.onsubmit = async (event) => {
