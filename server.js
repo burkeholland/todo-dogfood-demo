@@ -57,6 +57,12 @@ function createApp() {
       return send(res, 401, { error: 'Wrong email or password' });
     }
 
+    if (req.method === 'POST' && req.url === '/api/logout') {
+      const match = /(?:^|;\s*)sid=([^;]+)/.exec(req.headers.cookie || '');
+      if (match) sessions.delete(match[1]);
+      return send(res, 200, { ok: true }, { 'Set-Cookie': 'sid=; HttpOnly; Path=/; Max-Age=0' });
+    }
+
     if (req.url.startsWith('/api/todos')) {
       if (!isSignedIn(req)) return send(res, 401, { error: 'Sign in first' });
       if (req.method === 'GET') return send(res, 200, todos);

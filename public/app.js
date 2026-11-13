@@ -66,6 +66,13 @@ loginForm.onsubmit = async (event) => {
   refresh();
 };
 
+document.getElementById('logout').onclick = async () => {
+  refreshGeneration++;
+  await api('POST', '/api/logout');
+  app.hidden = true;
+  loginForm.hidden = false;
+};
+
 document.getElementById('add-form').onsubmit = async (event) => {
   event.preventDefault();
   const input = document.getElementById('new-todo');
