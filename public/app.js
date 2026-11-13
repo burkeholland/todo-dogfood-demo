@@ -17,11 +17,12 @@ function itemsLeft(todos) {
 }
 
 let refreshGeneration = 0;
+let signedOut = false;
 
 async function refresh() {
   const generation = ++refreshGeneration;
   const { ok, data: todos } = await api('GET', '/api/todos');
-  if (generation !== refreshGeneration || !ok) return;
+  if (signedOut || generation !== refreshGeneration || !ok) return;
   loginForm.hidden = true;
   app.hidden = false;
   list.innerHTML = '';
@@ -61,14 +62,18 @@ loginForm.onsubmit = async (event) => {
     document.getElementById('login-error').textContent = data.error;
     return;
   }
+  signedOut = false;
   loginForm.hidden = true;
   app.hidden = false;
   refresh();
 };
 
 document.getElementById('logout').onclick = async () => {
+  signedOut = true;
   refreshGeneration++;
-  await api('POST', '/api/logout');
+  try {
+    await api('POST', '/api/logout');
+  } catch {}
   app.hidden = true;
   loginForm.hidden = false;
 };
