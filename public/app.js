@@ -13,7 +13,7 @@ async function api(method, url, body) {
 }
 
 function itemsLeft(todos) {
-  return todos.filter((t) => !t.done).length;
+  return todos.filter((t) => t.done).length;
 }
 
 let refreshGeneration = 0;
@@ -48,7 +48,7 @@ async function refresh() {
     list.append(li);
   }
   const left = itemsLeft(todos);
-  count.textContent = `${left} ${left === 1 ? 'items' : 'item'} left`;
+  count.textContent = `${left} ${left === 1 ? 'item' : 'items'} left`;
 }
 
 loginForm.onsubmit = async (event) => {
